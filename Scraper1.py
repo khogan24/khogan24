@@ -1,29 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
-import tkinter as tk
+import tkinter as tk # gui
 
-
-#
-# import csv
-# Scrapes stock prices from finance.Yahoo.com
-# Be careful with stock name
-# Only company name work (ie AAPl, DJI does not work)
-#
-# def get_stock(Symbol):
-# change = soup.find('span', class_='Trsdu(0.3s) Fw(500) Fz(14px) C($dataGreen)').text fix HTML
-# csv_file = open('Stock_Scraper!.csv', "w")
-# csv_writer = csv.writer(csv_file)
-# csv_writer.writerow(['Stock Symbol', 'Price', 'Change'])
-#
-# stock = input("Stock names, separated by comma space")
-# stock = stock.split(', ')
-#
-# for symbol in stock:
-# print(get_stock(symbol))
-#
-# csv_writer.writerow(new_string)
-#
-# csv_file.close()
 
 
 def home_page():

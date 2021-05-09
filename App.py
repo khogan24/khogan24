@@ -1,5 +1,6 @@
 import pandas as pd
 from pandas_datareader import data as data_reader, wb
+import yfinance as yf
 from datetime import date
 from datetime import timedelta
 import datetime
@@ -23,13 +24,16 @@ def getStockPrice(symbol):
 		today = pd.to_datetime('today')
 		yesterday = today - timedelta(days = 1)
 		data = data_reader.DataReader(symbol, 'yahoo', yesterday, today)
+		# data = yf.Ticker(symbol)
+
 		print(data)
-		return "%s :\n %.2f"% (symbol , round(data.loc['2021-05-07']['Close'], 2))
+		return (symbol,round(data.loc['2021-05-07']['Close'], 2))
+		# return "%s :\n %.2f"% (symbol , round(data.loc['2021-05-07']['Close'], 2))
 	except Exception as e:
 		print('================================')
 		traceback.print_tb(e.__traceback__)
 		print('================================')
-		return "there was an error \n getting the stock: " + symbol
+		return ('error', 404)
 
 
 
@@ -38,5 +42,6 @@ def getStockPrice(symbol):
 # print(tesla_df)
 root = tk.Tk()
 mygui = Gui(root)
-mygui.button.config(command =lambda: mygui.readout.config(text = getStockPrice(mygui.entry.get())))
+#  mygui.readout.config(text = getStockPrice(mygui.entry.get()))
+mygui.search_button.config(command =lambda:mygui.add_readout_entry(getStockPrice(mygui.entry.get())))
 mygui.mainloop()

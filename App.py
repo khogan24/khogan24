@@ -10,8 +10,13 @@ from MyGui import Gui
 import traceback
 
 jan1 = '2021-01-01'
-# global datetime.timedelta(days=0, seconds=0, microseconds=0,
-#                 milliseconds=0, minutes=0, hours=0, weeks=0)
+
+# TODO:
+# 	add more symbols
+# 	add company names from symbols
+# 	add saved/watchlist
+# 	add graphs?
+# 	try https://polygon.io/?gclid=CjwKCAjw7diEBhB-EiwAskVi19HBZy5QJ63NSXp-PGuJ2Eb5XVasQKSsf87pZuha0Hy7hozGr3D0VxoCqRYQAvD_BwE
 
 def getStockPrice(symbol):
 	try:

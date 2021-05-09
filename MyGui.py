@@ -24,12 +24,12 @@ class Gui(tk.Frame):
 
 		self.button = tk.Button(self.frame, text='Get Stock Price!', bg='lime green', fg='white', font='Arial 13',
 				relief='raised',
-				bd=3, command=lambda: self.readout.config(text = self.entry.get()))
+				bd=3,)
 		self.button.place(anchor='ne', relx=0.97, rely=0.169, relheight=.7, relwidth=.40)
 
 		self.pack()
 		
 
-root = tk.Tk()
-myapp = Gui(root)
-myapp.mainloop()
+# root = tk.Tk()
+# myapp = Gui(root)
+# myapp.mainloop()

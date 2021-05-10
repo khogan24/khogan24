@@ -23,11 +23,12 @@ def getStockPrice(symbol):
 	try:
 		today = pd.to_datetime('today')
 		yesterday = today - timedelta(days = 1)
+		# print()
 		data = data_reader.DataReader(symbol, 'yahoo', yesterday, today)
 		# data = yf.Ticker(symbol)
 
-		print(data)
-		return (symbol,round(data.loc['2021-05-07']['Close'], 2))
+		return(symbol, data)
+		# return (symbol,round(data.loc[str(today)[0:10]]['Close'], 2))
 		# return "%s :\n %.2f"% (symbol , round(data.loc['2021-05-07']['Close'], 2))
 	except Exception as e:
 		print('================================')

@@ -1,4 +1,5 @@
 import tkinter as tk
+import pandas as pd
 
 class Gui(tk.Frame):
 	def __init__(self, master):
@@ -29,11 +30,12 @@ class Gui(tk.Frame):
 
 		self.watchlist_button = tk.Button(self.frame2, text='Add to Watch List', bg='lime green', fg='white', font='Arial 10', relief='raised', bd=3)
 		
-		self.readout_entry_list = [tk.Button(self.readout, anchor = 'ne', relief = 'raised'
-		, bg = 'blue', fg = 'white', font = 'Arial 10') for x in range(5) ]
+		self.readout_entry_list = [MyButton(self.readout) for x in range(5) ]
 		x = 0
 		for i in self.readout_entry_list:
-			i.config(text =x)
+			i.config(anchor = 'ne', relief = 'raised'
+				, bg = 'blue', fg = 'white', font = 'Arial 10')
+			i.config(text =x, command=lambda:self.show_detailed_info(i.getData()))
 			i.place(anchor = 'nw',rely = x * 0.2, relheight = 0.2, relwidth = 1)
 			x+=1
 			# print(i['text'])
@@ -42,12 +44,27 @@ class Gui(tk.Frame):
 		self.pack()
 
 	def add_readout_entry(self, tple):
-		self.readout_entry_list[self.readout_index].config(text = tple)
+		self.readout_entry_list[self.readout_index].config(text = str(tple[0]) + " " + str(round(tple[1].loc[str(pd.to_datetime('today'))[0:10]]['Close'], 2)))
+		self.readout_entry_list[self.readout_index].setData(tple[1])
 		self.readout_index+=1
 		self.readout_index%=5
 
-		
+	def show_detailed_info(self, data):
+		self.detailed_frame = tk.Frame(self.master, bg = 'red')
+		self.detailed_frame.place()
+		self.pack()
 
 # root = tk.Tk()
 # myapp = Gui(root)
 # myapp.mainloop()
+
+class MyButton (tk.Button):
+	def __init__(self, master):
+		self.data = {}
+		super().__init__()
+	def setData(self, data):
+		self.data = data
+	def getData(self):
+		return self.data
+	
+

@@ -35,7 +35,7 @@ class Gui(tk.Frame):
 		for i in self.readout_entry_list:
 			i.config(anchor = 'ne', relief = 'raised'
 				, bg = 'blue', fg = 'white', font = 'Arial 10')
-			i.config(text =x, command=lambda:self.show_detailed_info(i.getData()))
+			i.config(text =x, command=lambda z = i :self.show_detailed_info(z.getData()))
 			i.place(anchor = 'nw',rely = x * 0.2, relheight = 0.2, relwidth = 1)
 			x+=1
 			# print(i['text'])
@@ -50,6 +50,7 @@ class Gui(tk.Frame):
 		self.readout_index%=5
 
 	def show_detailed_info(self, data):
+		print("show detailed")
 		self.detailed_frame = tk.Frame(self.master, bg = 'red')
 		self.detailed_frame.place()
 		self.pack()
@@ -61,10 +62,11 @@ class Gui(tk.Frame):
 class MyButton (tk.Button):
 	def __init__(self, master):
 		self.data = {}
-		super().__init__()
+		super().__init__(master)
 	def setData(self, data):
 		self.data = data
 	def getData(self):
+		print(self.data)
 		return self.data
 	
 

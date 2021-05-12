@@ -34,15 +34,16 @@ def getStockPrice(symbol):
 		print('================================')
 		traceback.print_tb(e.__traceback__)
 		print('================================')
-		return ('error', 404)
+		return ('__error__', {})
 
 
 
 
 # tesla_df = data.DataReader('TSLA', 'yahoo', start , end)
 # print(tesla_df)
-root = tk.Tk()
-mygui = Gui(root)
-#  mygui.readout.config(text = getStockPrice(mygui.entry.get()))
-mygui.search_button.config(command =lambda:mygui.add_readout_entry(getStockPrice(mygui.entry.get())))
-mygui.mainloop()
+if __name__ == "__main__":
+	root = tk.Tk()
+	mygui = Gui(root)
+	#  mygui.readout.config(text = getStockPrice(mygui.entry.get()))
+	mygui.search_button.config(command =lambda:mygui.add_readout_entry(getStockPrice(mygui.entry.get())))
+	mygui.mainloop()

@@ -13,7 +13,7 @@ class Gui(tk.Frame):
 		self.frame.place(relx=.175, rely=.15, relwidth=0.60, relheight=0.075)
 
 		self.frame2 = tk.Frame(master, bg='light blue', bd=25)
-		self.frame2.place(anchor='n', relwidth=.6, relheight=.6, relx=.475, rely=.228, )
+		self.frame2.place(anchor='n', relwidth=.6, relheight=.6, relx=.475, rely=.228 )
 
 		self.entry = tk.Entry(self.frame, bg='white', font='Arial 14', relief='sunken', bd=3, )
 
@@ -35,7 +35,7 @@ class Gui(tk.Frame):
 		for i in self.readout_entry_list:
 			i.config(anchor = 'ne', relief = 'raised'
 				, bg = 'blue', fg = 'white', font = 'Arial 10')
-			i.config(text =x, command=lambda z = i :self.show_detailed_info(z.getData()))
+			i.config(text =x, command=lambda z = i :self.show_detailed_info(tuple((z.getSymbol(), z.getData()))))
 			i.place(anchor = 'nw',rely = x * 0.2, relheight = 0.2, relwidth = 1)
 			x+=1
 			# print(i['text'])
@@ -44,16 +44,19 @@ class Gui(tk.Frame):
 		self.pack()
 
 	def add_readout_entry(self, tple):
-		self.readout_entry_list[self.readout_index].config(text = str(tple[0]) + " " + str(round(tple[1].loc[str(pd.to_datetime('today'))[0:10]]['Close'], 2)))
-		self.readout_entry_list[self.readout_index].setData(tple[1])
-		self.readout_index+=1
-		self.readout_index%=5
+		if tple[0] != '__error__':
+			self.readout_entry_list[self.readout_index].config(text = str(tple[0]) + " " + str(round(tple[1].loc[str(pd.to_datetime('today'))[0:10]]['Close'], 2)))
+			self.readout_entry_list[self.readout_index].setSymbol(tple[0])
+			self.readout_entry_list[self.readout_index].setData(tple[1])
+			self.readout_index+=1
+			self.readout_index%=5
 
+
+	# shows a popup window with detailed
 	def show_detailed_info(self, data):
-		print("show detailed")
-		self.detailed_frame = tk.Frame(self.master, bg = 'red')
-		self.detailed_frame.place()
-		self.pack()
+		if data[0] == '__error__':
+			return
+		popup = Popup(data)
 
 # root = tk.Tk()
 # myapp = Gui(root)
@@ -62,11 +65,35 @@ class Gui(tk.Frame):
 class MyButton (tk.Button):
 	def __init__(self, master):
 		self.data = {}
+		self.symbol = {}
 		super().__init__(master)
 	def setData(self, data):
 		self.data = data
 	def getData(self):
-		print(self.data)
 		return self.data
+	def setSymbol(self, symbol):
+		self.symbol = symbol
+	def getSymbol(self):
+		return self.symbol
+
+class Popup ():
+	def __init__(self, tple):
+		self.window = tk.Toplevel()
+		self.window.wm_title("Window")
+		self.symbol = tple[0]
+		self.data = tple[1]
+
+		self.ytd = tk.Button(self.window, text='YTD')
+		self.ytd.grid(row=1, column=2)
+		self.week = tk.Button(self.window, text='1 Week')
+		self.week.grid(row=1, column=1)
+		self.month = tk.Button(self.window, text='1 Month')
+		self.month.grid(row=1, column=3)
+		self.five_year = tk.Button(self.window, text='5 Years')
+		self.five_year.grid(row=1, column=4)
+		
+		self.readout = tk.Label(self.window, text=str(tple[0]) + "\n" + str(tple[1]))
+		self.readout.grid(row=3, column=0)
+
 	
 

@@ -1,5 +1,6 @@
 import tkinter as tk
 import pandas as pd
+from PriceGet import get_stock_price
 
 class Gui(tk.Frame):
 	def __init__(self, master):
@@ -82,18 +83,24 @@ class Popup ():
 		self.window.wm_title("Window")
 		self.symbol = tple[0]
 		self.data = tple[1]
-
-		self.ytd = tk.Button(self.window, text='YTD')
+		self.day = tk.Button(self.window, text='1 Day',	command =lambda: self.set_timeframe(self.symbol,'d'))
+		self.day.grid(row = 1, column = 0)
+		self.ytd = tk.Button(self.window, text='YTD', command =lambda: self.set_timeframe(self.symbol,'ytd'))
 		self.ytd.grid(row=1, column=2)
-		self.week = tk.Button(self.window, text='1 Week')
+		self.week = tk.Button(self.window, text='1 Week', command =lambda: self.set_timeframe(self.symbol,'w'))
 		self.week.grid(row=1, column=1)
-		self.month = tk.Button(self.window, text='1 Month')
+		self.month = tk.Button(self.window, text='1 Month', command =lambda: self.set_timeframe(self.symbol,'m'))
 		self.month.grid(row=1, column=3)
-		self.five_year = tk.Button(self.window, text='5 Years')
+		self.five_year = tk.Button(self.window, text='5 Years', command =lambda: self.set_timeframe(self.symbol,'5y') )
 		self.five_year.grid(row=1, column=4)
 		
-		self.readout = tk.Label(self.window, text=str(tple[0]) + "\n" + str(tple[1]))
+		self.readout = tk.Label(self.window, text=str(self.symbol) + "\n" + str(self.data))
 		self.readout.grid(row=3, column=0)
-
 	
+	def set_timeframe(self, symbol, timeframe):
+		self.data = get_stock_price(symbol, timeframe)
+		self.readout.config(text = str(self.symbol) + "\n" + str(self.data[1]) )
+
+
+
 
